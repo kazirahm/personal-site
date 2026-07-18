@@ -1,6 +1,11 @@
 const root = document.documentElement;
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme) root.dataset.theme = savedTheme;
+
+if (savedTheme) {
+  root.dataset.theme = savedTheme;
+} else if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
+  root.dataset.theme = 'dark';
+}
 
 document.querySelector('.theme-toggle')?.addEventListener('click', () => {
   const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -8,4 +13,5 @@ document.querySelector('.theme-toggle')?.addEventListener('click', () => {
   localStorage.setItem('theme', next);
 });
 
-document.querySelector('#year').textContent = new Date().getFullYear();
+const year = document.querySelector('#year');
+if (year) year.textContent = new Date().getFullYear();
